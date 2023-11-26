@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Management</title>
+    <th:block th:replace="layout/head" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <header>
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand">MANAGEMENT</a>
+                    <div class="d-flex" style="gap: 10px;">
+                        <button class="btn btn-outline-light" type="button" id="btnUpdate">
+                            <i class="fas fa-history"></i>
+                            BUTTON 1
+                        </button>
+                        <button type="button" class="btn btn-outline-light" data-bs-toggle="modal"
+                                data-bs-target="#modalCreate">
+                            <i class="far fa-plus-square"></i>
+                            BUTTON 2
+                        </button>
+                        <a href="/login">
+                        <button type="button" class="btn btn-outline-light" data-bs-toggle="modal"
+                                data-bs-target="#modalCreate">
+                            <i class="far fa-plus-square"></i>
+                            BUTTON 3
+                        </button>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="content">
+            <table id="tbCustomer" class="table table-hover">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Id</th>
+                    <th>FullName</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+
+        </footer>
+    </div>
+
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive"
+             aria-atomic="true">
+            <div class="d-flex">
+                <div id="toast-body" class="toast-body">
+                </div>
+                <button type="button" id="btnCloseToast" class="btn-close btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Create -->
+    <th:block th:replace="customer/modalCreate" />
+
+    <!-- Modal Update -->
+    <th:block th:replace="customer/modalUpdate" />
+
+
+<script>
+    $('#btnUpdate').on('click', () => {
+        $('#modalUpdate').modal('show');
+        AppUtils.showSuccess('Cập nhật thông tin thành công');
+    })
+
+    AppUtils.showError('Không thành công')
+
+    $('#tbCustomer tbody')
+    renderCustomer = (obj) => {
+        return `
+                <tr id="tr_${obj.id}">
+                    <th scope="row">${obj.id}</th>
+                    <td>${obj.fullName}</td>
+                    <td>${obj.email}</td>
+                    <td>${obj.phone}</td>
+                    <td>${obj.locationRegion.provinceName}</td>
+                    <td>${obj.locationRegion.districtName}</td>
+                    <td>${obj.locationRegion.wardName}</td>
+                    <td>${obj.locationRegion.address}</td>
+                    <td>${obj.balance}</td>
+                    <td class="text-center">
+                        <button class="btn btn-outline-secondary edit" data-id="${obj.id}">
+                            <i class="fa fa-pencil-alt"></i>
+                        </button>
+                        <button class="btn btn-outline-success deposit" data-id="${obj.id}">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="btn btn-outline-warning withdraw" data-id="${obj.id}">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button class="btn btn-outline-primary transfer" data-id="${obj.id}">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <button class="btn btn-outline-danger delete"
+                            data-id="${obj.id}">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            `
+    }
+</script>
+
+</body>
+
+</html>
